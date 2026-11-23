@@ -47,7 +47,7 @@ Identificou-se que a divisão original do conjunto de validação (16 imagens) e
 
 O pré-processamento incluiu redimensionamento para 224x224 pixels, normalização segundo as estatísticas do ImageNet (μ=[0,485, 0,456, 0,406], σ=[0,229, 0,224, 0,225]) e, para o conjunto de treino, aumento de dados (data augmentation) via espelhamento horizontal e rotação aleatória de até 10°.
 
-![Fig. 1. Distribuição de classes no conjunto de dados.](fig1_distribuicao_classes.png)
+![Fig. 1. Distribuição de classes no conjunto de dados.](./imgs/distribuicao_classes.png)
 
 *Fig. 1. Distribuição de classes no conjunto de dados (NORMAL: 1.583; PNEUMONIA: 4.237).*
 
@@ -89,11 +89,11 @@ Nos treinamentos iniciais da ResNet-50, também observou-se instabilidade com o 
 
 Nota-se que, em ambas, obteve-se um crescimento suave das curvas de acurácia, além da proximidade entre a acurácia de treino e validação, e uma redução suave das curvas de loss, onde ambas as curvas de loss do treino e validação se mantêm próximas.
 
-![Fig. 2. Curvas de treinamento da CNN (seed=7).](fig2_curvas_cnn.png)
+![Fig. 2. Curvas de treinamento da CNN (seed=7).](./imgs/curvas_treinamento_cnn.png)
 
 *Fig. 2. Curvas de treinamento da CNN (seed=7).*
 
-![Fig. 3. Curvas de treinamento da ResNet-50 (seed=7).](fig3_curvas_resnet50.png)
+![Fig. 3. Curvas de treinamento da ResNet-50 (seed=7).](./imgs/curvas_treinamento_resnet50.png)
 
 *Fig. 3. Curvas de treinamento da ResNet-50 (seed=7).*
 
@@ -108,7 +108,7 @@ Nota-se que, em ambas, obteve-se um crescimento suave das curvas de acurácia, a
 | F1 Normal       | 0,894 ∓ 0,019 / 0,898    | 0,866 ∓ 0,005 / 0,866    |
 | F1 PNEUMONIA    | 0,961 ∓ 0,006 / 0,963    | 0,949 ∓ 0,001 / 0,949    |
 
-![Fig. 4. Distribuição do F1-macro ao longo de 30 execuções.](fig4_boxplot_f1.png)
+![Fig. 4. Distribuição do F1-macro ao longo de 30 execuções.](./imgs/distribuicao_f1.png)
 
 *Fig. 4. Distribuição do F1-macro ao longo de 30 execuções.*
 
@@ -118,7 +118,7 @@ Ao realizar o teste de hipótese Mann-Whitney na métrica F1-macro, observou-se 
 
 Em ambos os modelos obteve-se um excelente AUC, evidenciando que ambos apresentam grande capacidade de discriminação entre as classes. Nota-se uma leve vantagem para a CNN treinada do zero (AUC=0,985) em relação ao ResNet-50 (AUC=0,976).
 
-![Fig. 5. Curvas ROC comparativas.](fig5_roc.png)
+![Fig. 5. Curvas ROC comparativas.](./imgs/curva_roc.png)
 
 *Fig. 5. Curvas ROC comparativas.*
 
