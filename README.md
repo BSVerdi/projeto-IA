@@ -164,6 +164,12 @@ A estatística e os gráficos só são gerados quando `runs.csv` contém os dois
 | Erro de multiprocessing no Windows | Rode via `python main.py` (o guard `__main__` já existe) ou use `--workers 0` |
 | GPU com baixo uso | Gargalo na leitura das imagens: aumente `--workers` e use SSD |
 
+## Próximos Passos
+
+- Atualizar o relatório com os novos resultados obtidos
+- Adição de LR scheduler para ambos os modelos
+- Fine-tuning do ResNet50
+
 ## Referências
 
 - Kermany et al. *Identifying Medical Diagnoses and Treatable Diseases by Image-Based Deep Learning.* Cell, 2018.
