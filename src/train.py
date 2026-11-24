@@ -12,8 +12,8 @@ from .dataset import make_loaders
 from .models import build_model
 
 HPARAMS = {
-    "CNN":      dict(lr=0.00001, batch_size=64, epochs=10),
-    "ResNet50": dict(lr=0.0001, batch_size=64, epochs=10),
+    "CNN":      dict(lr=0.00002, batch_size=64, epochs=10),
+    "ResNet50": dict(lr=0.0002, batch_size=64, epochs=10),
 }
 
 

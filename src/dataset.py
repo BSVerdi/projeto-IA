@@ -18,7 +18,7 @@ def collect_files(data_dir: Path):
 
     for label, cls in enumerate(CLASSES):
         for p in sorted((data_dir / cls).glob("*")):
-            if p.suffix.lower() in {".jpeg", ".jpg", ".png"}:
+            if p.suffix.lower() == ".jpeg":
                 paths.append(str(p))
                 labels.append(label)
 
@@ -41,9 +41,13 @@ def make_splits(paths, labels):
 class XRayDataset(Dataset):
     def __init__(self, paths, labels, train: bool):
         self.paths, self.labels = paths, labels
-        aug = [transforms.RandomHorizontalFlip(), transforms.RandomRotation(10)] if train else []
+        aug = [
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomAffine(degrees=10, translate=(0.05, 0.05), scale=(0.95, 1.05)),
+            transforms.ColorJitter(brightness=0.2, contrast=0.2),
+        ] if train else []
         self.tf = transforms.Compose(
-            [transforms.Resize((224, 224))] + aug +
+            [transforms.Resize(256), transforms.CenterCrop(224)] + aug +
             [transforms.ToTensor(), transforms.Normalize(MEAN, STD)])
 
     def __len__(self):

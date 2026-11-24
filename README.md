@@ -122,7 +122,7 @@ Os resultados são gravados em `results/runs.csv` a cada execução. Se o treino
 | `runs.csv` | Uma linha por execução: loss, acurácia, F1 (macro, Normal, Pneumonia), AUC, tempo |
 | `stats_summary.csv` | Média, desvio-padrão, mediana, p-valor de Shapiro-Wilk e de Mann-Whitney por métrica |
 | `boxplot_f1.png` | Distribuição do F1 macro nas seeds |
-| `curvas_CNN.png`, `curvas_ResNet50.png` | Loss e acurácia de treino/validação (seed de referência) |
+| `curvas_CNN_old.png`, `curvas_ResNet50_old.png` | Loss e acurácia de treino/validação (seed de referência) |
 | `roc.png` | Curvas ROC comparativas (seed de referência) |
 | `histories/`, `probs/` | Histórico por época e probabilidades de teste de cada execução |
 

@@ -71,10 +71,10 @@ def make_plots(df: pd.DataFrame, out_dir: Path, ref_seed: int):
         fig, axs = plt.subplots(2, 1, figsize=(9, 14))
         axs[0].plot(h.epoch, h.train_loss, label="Loss Treino")
         axs[0].plot(h.epoch, h.val_loss, label="Loss Validação")
-        axs[0].set_title("Loss Treino X Validação")
+        axs[0].set_title(f"Loss Treino X Validação ({name})")
         axs[1].plot(h.epoch, h.train_acc, label="Acurácia Treino")
         axs[1].plot(h.epoch, h.val_acc, label="Acurácia Validação")
-        axs[1].set_title("Acurácia Treino X Validação")
+        axs[1].set_title(f"Acurácia Treino X Validação ({name})")
         axs[1].set_xlabel("Épocas")
         for a in axs:
             a.legend()

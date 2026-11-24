@@ -65,7 +65,7 @@ Utilizamos o Python 3.11.9, PyTorch 2.11.0+cu128 e Torchvision 0.26.0+cu128 para
 
 | Parâmetro     | CNN     | ResNet-50 |
 |---------------|---------|-----------|
-| Learning rate | 0,00001 | 0,0001    |
+| Learning rate | 0,00002 | 0,0002    |
 | Batch Size    | 64      | 64        |
 | Épocas        | 10      | 10        |
 | Otimizador    | Adam    | Adam      |
@@ -83,9 +83,9 @@ Para cada métrica, testou-se a normalidade das distribuições via teste de Sha
 
 ### A. Curvas de Treinamento
 
-Durante os testes iniciais da CNN do zero, foi observada uma instabilidade nas curvas de acurácia da validação, então decidiu-se reduzir o learning rate, de 0,001, gradualmente durante diversos testes até que atingiu-se o valor de 0,00005, onde não se observou mais instabilidade durante as épocas iniciais.
+Durante os testes iniciais da CNN do zero, foi observada uma instabilidade nas curvas de acurácia da validação, então decidiu-se reduzir o learning rate, de 0,001, gradualmente durante diversos testes até que atingiu-se o valor de 0,00002, onde não se observou mais instabilidade durante as épocas iniciais.
 
-Nos treinamentos iniciais da ResNet-50, também observou-se instabilidade com o learning rate inicial de 0,001, assim reduzimos para 0,0005 e eliminou-se a instabilidade inicial do treinamento.
+Nos treinamentos iniciais da ResNet-50, também observou-se instabilidade com o learning rate inicial de 0,001, assim reduzimos para 0,0002 e eliminou-se a instabilidade inicial do treinamento.
 
 Nota-se que, em ambas, obteve-se um crescimento suave das curvas de acurácia, além da proximidade entre a acurácia de treino e validação, e uma redução suave das curvas de loss, onde ambas as curvas de loss do treino e validação se mantêm próximas.
 
