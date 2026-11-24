@@ -1,0 +1,8 @@
+# PyTorch com CUDA 12.8 (necessário para RTX série 50):
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+pillow
