@@ -34,9 +34,9 @@ def make_plots(df: pd.DataFrame, out_dir: Path, ref_seed: int):
 
     names = ["CNN", "ResNet50"]
 
-    # Boxplot do F1 macro (cores do artigo: CNN vermelho, ResNet50 azul)
+    # Boxplot do F1 macro
     colors = {"CNN": "#ff5555", "ResNet50": "#5555ff"}
-    fig, ax = plt.subplots(figsize=(5, 5))
+    fig, ax = plt.subplots(figsize=(8, 8))
     data = [df[df.model == m].f1_macro.values for m in names]
     bp = ax.boxplot(
         data, widths=0.5, patch_artist=True,
@@ -61,14 +61,14 @@ def make_plots(df: pd.DataFrame, out_dir: Path, ref_seed: int):
     plt.close(fig)
 
     # Curvas de treino e ROC da seed de referência
-    fig_roc, ax_roc = plt.subplots(figsize=(6, 6))
+    fig_roc, ax_roc = plt.subplots(figsize=(8, 8))
     for name in names:
         hist_path = out_dir / "histories" / f"{name}_seed{ref_seed}.json"
         prob_path = out_dir / "probs" / f"{name}_seed{ref_seed}.npz"
         if not hist_path.exists():
             continue
         h = pd.DataFrame(json.load(open(hist_path)))
-        fig, axs = plt.subplots(2, 1, figsize=(6, 7))
+        fig, axs = plt.subplots(2, 1, figsize=(9, 14))
         axs[0].plot(h.epoch, h.train_loss, label="Loss Treino")
         axs[0].plot(h.epoch, h.val_loss, label="Loss Validação")
         axs[0].set_title("Loss Treino X Validação")
@@ -136,5 +136,5 @@ def make_confusion_matrices(out_dir: Path, ref_seed: int, threshold: float = 0.5
 
     if im is not None:
         fig.colorbar(im, ax=axs, shrink=0.8, label="Proporção da classe real")
-    fig.savefig(out_dir / "confusion_matrix.png", dpi=150, bbox_inches="tight")
+    fig.savefig(out_dir / "matriz_confusao.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
