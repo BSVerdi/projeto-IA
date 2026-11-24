@@ -170,6 +170,11 @@ A estatística e os gráficos só são gerados quando `runs.csv` contém os dois
 - Adição de LR scheduler para ambos os modelos
 - Fine-tuning do ResNet50
 
+## Autor
+
+Breno, estudante de Ciências e Tecnologia na UNIFESP.
+[LinkedIn](https://www.linkedin.com/in/breno-silveira-signorini-verdi-0a3440330/) · [GitHub](https://github.com/BSVerdi)
+
 ## Referências
 
 - Kermany et al. *Identifying Medical Diagnoses and Treatable Diseases by Image-Based Deep Learning.* Cell, 2018.
