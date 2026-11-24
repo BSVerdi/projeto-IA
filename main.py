@@ -1,62 +1,23 @@
 import argparse
 from pathlib import Path
 
-import numpy as np
+import pandas as pd
 import torch
-from PIL import Image
-from sklearn.model_selection import train_test_split
-from torch.utils.data import Dataset
-from torchvision import transforms
 
-CLASSES = ["NORMAL", "PNEUMONIA"]
-MEAN = [0.485, 0.456, 0.406]
-STD = [0.229, 0.224, 0.225]
-SPLIT_SEED = 42
-
-
-def collect_files(data_dir: Path):
-    paths, labels = [], []
-    for label, cls in enumerate(CLASSES):
-        for p in sorted((data_dir / cls).glob("*")):
-            if p.suffix.lower() in {".jpeg", ".jpg", ".png"}:
-                paths.append(str(p))
-                labels.append(label)
-    if not paths:
-        raise FileNotFoundError(f"Nenhuma imagem em {data_dir}/{{NORMAL,PNEUMONIA}}")
-    return np.array(paths), np.array(labels)
-
-
-def make_splits(paths, labels):
-    p_train, p_tmp, y_train, y_tmp = train_test_split(
-        paths, labels, test_size=0.30, stratify=labels, random_state=SPLIT_SEED)
-    p_val, p_test, y_val, y_test = train_test_split(
-        p_tmp, y_tmp, test_size=0.50, stratify=y_tmp, random_state=SPLIT_SEED)
-    return (p_train, y_train), (p_val, y_val), (p_test, y_test)
-
-
-class XRayDataset(Dataset):
-    def __init__(self, paths, labels, train: bool):
-        self.paths, self.labels = paths, labels
-        aug = [transforms.RandomHorizontalFlip(), transforms.RandomRotation(10)] if train else []
-        self.tf = transforms.Compose(
-            [transforms.Resize((224, 224))] + aug +
-            [transforms.ToTensor(), transforms.Normalize(MEAN, STD)])
-
-    def __len__(self):
-        return len(self.paths)
-
-    def __getitem__(self, i):
-        img = Image.open(self.paths[i]).convert("RGB")
-        return self.tf(img), int(self.labels[i])
+from src.analysis import analyze, make_plots
+from src.dataset import collect_files, make_splits
+from src.train import HPARAMS, run_one
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--data_dir", type=str, required=True)
+    ap.add_argument("--data_dir", type=str, required=True,
+                    help="pasta unificada com NORMAL/ e PNEUMONIA/")
     ap.add_argument("--out_dir", type=str, default="results")
     ap.add_argument("--seeds", type=int, default=30)
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--ref_seed", type=int, default=7, help="seed usada nas curvas/ROC")
+    ap.add_argument("--models", nargs="+", default=["CNN", "ResNet50"], choices=list(HPARAMS))
     args = ap.parse_args()
 
     out_dir = Path(args.out_dir)
@@ -64,9 +25,36 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     torch.backends.cudnn.benchmark = True
     print("Device:", device)
+    if device.type == "cuda":
+        print("GPU:", torch.cuda.get_device_name(0))
 
     paths, labels = collect_files(Path(args.data_dir))
     print(f"Total: {len(paths)} | NORMAL={int((labels == 0).sum())} "
           f"PNEUMONIA={int((labels == 1).sum())}")
     splits = make_splits(paths, labels)
     print("Treino/Val/Teste:", [len(s[0]) for s in splits])
+
+    # retoma execuções já concluídas
+    runs_csv = out_dir / "runs.csv"
+    rows = pd.read_csv(runs_csv).to_dict("records") if runs_csv.exists() else []
+    done = {(r["model"], int(r["seed"])) for r in rows}
+
+    for name in args.models:
+        for seed in range(args.seeds):
+            if (name, seed) in done:
+                print(f"Pulando {name} seed={seed} (já feito)")
+                continue
+            print(f"\n>>> {name} | seed {seed}")
+            rows.append(run_one(name, seed, splits, device, args.workers, out_dir))
+            pd.DataFrame(rows).to_csv(runs_csv, index=False)  # checkpoint a cada execução
+
+    df = pd.DataFrame(rows)
+    if set(df.model) >= {"CNN", "ResNet50"}:
+        analyze(df, out_dir)
+        make_plots(df, out_dir, args.ref_seed)
+    else:
+        print("Estatística/gráficos exigem os dois modelos em runs.csv.")
+
+
+if __name__ == "__main__":  # necessário no Windows (DataLoader com workers)
+    main()
