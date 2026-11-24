@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/data" />
+      <excludeFolder url="file://$MODULE_DIR$/results" />
     </content>
     <orderEntry type="jdk" jdkName="~/Documents/github/projeto-IA/.venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
