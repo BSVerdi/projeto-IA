@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-class scratchCNN(nn.Module):
+class ScratchCNN(nn.Module):
 
     def __init__(self):
         super().__init__()
@@ -37,11 +37,11 @@ class scratchCNN(nn.Module):
             nn.Linear(64, 2),
         )
 
-
+    @staticmethod
     def conv_block(cin, cout):
         return nn.Sequential(
             nn.Conv2d(cin, cout, 3, padding=1),
-            nn.BatchNorm2d(32),
+            nn.BatchNorm2d(cout),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(2),
         )
