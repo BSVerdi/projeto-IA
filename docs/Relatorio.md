@@ -65,7 +65,7 @@ Utilizamos o Python 3.11.9, PyTorch 2.11.0+cu128 e Torchvision 0.26.0+cu128 para
 
 | Parâmetro     | CNN     | ResNet-50 |
 |---------------|---------|-----------|
-| Learning rate | 0,00005 | 0,0005    |
+| Learning rate | 0,00001 | 0,0001    |
 | Batch Size    | 64      | 64        |
 | Épocas        | 10      | 10        |
 | Otimizador    | Adam    | Adam      |
